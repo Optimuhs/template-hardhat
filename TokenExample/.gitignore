@@ -27,10 +27,23 @@ yarn-error.log*
 
 # local env files
 .env*.local
-
+.env
+gas-report.txt
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# prettierignore
+node_modules
+package.json
+img
+artifacts
+cache
+coverage
+.env
+.*
+README.md
+coverage.json
