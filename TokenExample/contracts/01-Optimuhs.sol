@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
@@ -9,10 +9,10 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract OptimuhsToken is ERC721, ERC721URIStorage, Pausable, Ownable, ERC721Burnable, ReentrancyGuard {
+contract OptimuhsSingle is ERC721, ERC721URIStorage, Pausable, Ownable, ERC721Burnable, ReentrancyGuard {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIdCounter;
-    uint public MAX_MINT = 1000;
+    
     string public baseExtension = ".json";
     uint private currentMinted = 0;
     string private _baseTokenURI;
@@ -22,8 +22,8 @@ contract OptimuhsToken is ERC721, ERC721URIStorage, Pausable, Ownable, ERC721Bur
     struct SalesConfig{
         uint256 mintPrice;
         uint256 amountPerWallet;
-        uint256 freeSupply;
         uint256 totalSupply;
+        
     }
     SalesConfig public salesConfig;
 
@@ -33,12 +33,11 @@ contract OptimuhsToken is ERC721, ERC721URIStorage, Pausable, Ownable, ERC721Bur
     constructor(
         uint256 mintPrice_,
         uint256 amountPerWallet_,
-        uint256 freeSupply_,
-        uint256 totalSupply_
+         uint256 totalSupply_
     ) ERC721("OptimuhsToken", "OPT") {
+         //add totalSupply, mintPrice, amountPerWallet to constructor and replace with variables for different uses
         salesConfig.mintPrice = mintPrice_;
         salesConfig.amountPerWallet = amountPerWallet_;
-        salesConfig.freeSupply = freeSupply_;
         salesConfig.totalSupply = totalSupply_;
     }
 
@@ -57,13 +56,12 @@ contract OptimuhsToken is ERC721, ERC721URIStorage, Pausable, Ownable, ERC721Bur
         _setTokenURI(tokenId, uri);
     }
 
-    function mintNFT(uint256 amount) public payable{
-        require(mintList[msg.sender] < MAX_MINT, "Max mint limit per wallet reached");
-        require(msg.value > amount * salesConfig.mintPrice, "Not enough ETH");
+    function mintNFT() public payable{
+        require(mintList[msg.sender] + 1 < salesConfig.amountPerWallet ,"Max mint limit per wallet reached");
+        require(msg.value > salesConfig.mintPrice, "Not enough ETH");
         safeMint(msg.sender, _baseTokenURI);
-        mintList[msg.sender] += uint32(amount);
-        _tokenIdCounter.increment();
-        
+        mintList[msg.sender] += 1;
+        refundIfOver(salesConfig.mintPrice);
     }
 
     function refundIfOver(uint256 price) private {
@@ -108,6 +106,14 @@ contract OptimuhsToken is ERC721, ERC721URIStorage, Pausable, Ownable, ERC721Bur
 
     receive() external payable {
         emit RecievedPayment(msg.sender, msg.value);
+    }
+
+    function currentCount() public view returns(uint){
+        return _tokenIdCounter.current();
+    }
+
+    function currentBalance() public view returns(uint256){
+        return address(this).balance;
     }
 }
 
