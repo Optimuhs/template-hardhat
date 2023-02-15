@@ -11,13 +11,13 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 contract OptimuhsSingle is ERC721, ERC721URIStorage, Pausable, Ownable, ERC721Burnable, ReentrancyGuard {
     using Counters for Counters.Counter;
-    Counters.Counter private _tokenIdCounter;
+    Counters.Counter private s_tokenIdCounter;
     
-    string public baseExtension = ".json";
-    uint private currentMinted = 0;
-    string private _baseTokenURI;
+    string public s_baseExtension = ".json";
+    uint private s_currentMinted = 0;
+    string private s_baseTokenURI;
 
-    mapping(address => uint32) public mintList;
+    mapping(address => uint32) public s_mintList;
 
     struct SalesConfig{
         uint256 mintPrice;
@@ -25,7 +25,7 @@ contract OptimuhsSingle is ERC721, ERC721URIStorage, Pausable, Ownable, ERC721Bu
         uint256 totalSupply;
         
     }
-    SalesConfig public salesConfig;
+    SalesConfig public s_salesConfig;
 
     event SuccessfulMint(address user, uint amount, uint value);
     event RecievedPayment(address user, uint amount);
@@ -36,9 +36,9 @@ contract OptimuhsSingle is ERC721, ERC721URIStorage, Pausable, Ownable, ERC721Bu
          uint256 totalSupply_
     ) ERC721("OptimuhsToken", "OPT") {
          //add totalSupply, mintPrice, amountPerWallet to constructor and replace with variables for different uses
-        salesConfig.mintPrice = mintPrice_;
-        salesConfig.amountPerWallet = amountPerWallet_;
-        salesConfig.totalSupply = totalSupply_;
+        s_salesConfig.mintPrice = mintPrice_;
+        s_salesConfig.amountPerWallet = amountPerWallet_;
+        s_salesConfig.totalSupply = totalSupply_;
     }
 
     function pause() public onlyOwner {
@@ -50,18 +50,18 @@ contract OptimuhsSingle is ERC721, ERC721URIStorage, Pausable, Ownable, ERC721Bu
     }
 
     function safeMint(address to, string memory uri) private {
-        uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
+        uint256 tokenId = s_tokenIdCounter.current();
+        s_tokenIdCounter.increment();
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
     }
 
     function mintNFT() public payable{
-        require(mintList[msg.sender] + 1 < salesConfig.amountPerWallet ,"Max mint limit per wallet reached");
-        require(msg.value > salesConfig.mintPrice, "Not enough ETH");
-        safeMint(msg.sender, _baseTokenURI);
-        mintList[msg.sender] += 1;
-        refundIfOver(salesConfig.mintPrice);
+        require(s_mintList[msg.sender] + 1 < s_salesConfig.amountPerWallet ,"Max mint limit per wallet reached");
+        require(msg.value > s_salesConfig.mintPrice, "Not enough ETH");
+        safeMint(msg.sender, s_baseTokenURI);
+        s_mintList[msg.sender] += 1;
+        refundIfOver(s_salesConfig.mintPrice);
     }
 
     function refundIfOver(uint256 price) private {
@@ -94,7 +94,7 @@ contract OptimuhsSingle is ERC721, ERC721URIStorage, Pausable, Ownable, ERC721Bu
     }
 
     function _baseURI() internal view virtual override returns (string memory){
-        return _baseTokenURI;
+        return s_baseTokenURI;
         
     }
 
@@ -109,7 +109,7 @@ contract OptimuhsSingle is ERC721, ERC721URIStorage, Pausable, Ownable, ERC721Bu
     }
 
     function currentCount() public view returns(uint){
-        return _tokenIdCounter.current();
+        return s_tokenIdCounter.current();
     }
 
     function currentBalance() public view returns(uint256){
