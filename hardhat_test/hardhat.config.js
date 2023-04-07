@@ -4,7 +4,10 @@ require("@nomiclabs/hardhat-etherscan")
 require("dotenv").config()
 require("solidity-coverage")
 require("hardhat-deploy")
+<<<<<<< HEAD
 require("@nomiclabs/hardhat-web3")
+=======
+>>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 
 // You need to export an object to set up your config
 // Go to https://hardhat.org/config/ to learn more

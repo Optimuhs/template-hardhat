@@ -7,10 +7,22 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+<<<<<<< HEAD
 import "../Interfaces/RewardTokenInterface.sol";
 import "../04-SafeMath.sol";
 
 interface TokenStakingInterface is IERC721Receiver {
+=======
+import "./Interfaces/RewardTokenInterface.sol";
+import "./04-SafeMath.sol";
+
+contract TokenStakingInterface is
+    Ownable,
+    Pausable,
+    ReentrancyGuard,
+    IERC721Receiver
+{
+>>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
     function onERC721Received(
         address operator,
         address from,
@@ -18,9 +30,15 @@ interface TokenStakingInterface is IERC721Receiver {
         bytes memory data
     ) external returns (bytes4);
 
+<<<<<<< HEAD
     function stakeToken(uint _tokenid) external;
 
     function unstakeToken(address _user, uint _tokenid) external;
+=======
+    function stakeToken(uint _tokenid) external nonReentrant;
+
+    function unstakeToken(address _user, uint _tokenid) external nonReentrant;
+>>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 
     function checkTokenIsStaked(
         address _user,
@@ -50,9 +68,17 @@ interface TokenStakingInterface is IERC721Receiver {
         address _user
     ) external view returns (uint totalStakeTime);
 
+<<<<<<< HEAD
     function pause() external;
 
     function unpause() external;
 
     function withdraw() external returns (bool);
+=======
+    function pause() external onlyOwner;
+
+    function unpause() external onlyOwner;
+
+    function withdraw() external onlyOwner nonReentrant returns (bool);
+>>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 }

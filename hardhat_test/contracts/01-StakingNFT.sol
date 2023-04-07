@@ -64,7 +64,11 @@ contract OptimuhsSingle is
 
     function mintNFT() public payable {
         require(
+<<<<<<< HEAD
             s_mintList[msg.sender] + 1 <= s_salesConfig.amountPerWallet,
+=======
+            s_mintList[msg.sender] + 1 < s_salesConfig.amountPerWallet,
+>>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
             "Max mint limit per wallet reached"
         );
         require(msg.value > s_salesConfig.mintPrice, "Not enough ETH");

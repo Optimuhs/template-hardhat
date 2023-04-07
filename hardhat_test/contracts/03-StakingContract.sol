@@ -8,6 +8,10 @@ import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "./Interfaces/RewardTokenInterface.sol";
+<<<<<<< HEAD
+=======
+
+>>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 import "./04-SafeMath.sol";
 
 contract TokenStaking is Ownable, Pausable, ReentrancyGuard, IERC721Receiver {
