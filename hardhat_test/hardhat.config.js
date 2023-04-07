@@ -6,7 +6,10 @@ require("solidity-coverage")
 require("hardhat-deploy")
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 require("@nomiclabs/hardhat-web3")
+=======
+>>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 =======
 >>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 =======

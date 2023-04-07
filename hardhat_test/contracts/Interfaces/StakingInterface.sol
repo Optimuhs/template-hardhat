@@ -9,11 +9,14 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import "../Interfaces/RewardTokenInterface.sol";
 import "../04-SafeMath.sol";
 
 interface TokenStakingInterface is IERC721Receiver {
 =======
+=======
+>>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 =======
 >>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 import "./Interfaces/RewardTokenInterface.sol";
@@ -26,6 +29,9 @@ contract TokenStakingInterface is
     IERC721Receiver
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
+=======
 >>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 =======
 >>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
@@ -38,9 +44,15 @@ contract TokenStakingInterface is
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     function stakeToken(uint _tokenid) external;
 
     function unstakeToken(address _user, uint _tokenid) external;
+=======
+    function stakeToken(uint _tokenid) external nonReentrant;
+
+    function unstakeToken(address _user, uint _tokenid) external nonReentrant;
+>>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 =======
     function stakeToken(uint _tokenid) external nonReentrant;
 
@@ -82,6 +94,7 @@ contract TokenStakingInterface is
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     function pause() external;
 
     function unpause() external;
@@ -90,12 +103,17 @@ contract TokenStakingInterface is
 =======
 =======
 >>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
+=======
+>>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
     function pause() external onlyOwner;
 
     function unpause() external onlyOwner;
 
     function withdraw() external onlyOwner nonReentrant returns (bool);
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
+=======
 >>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 =======
 >>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2

@@ -1,8 +1,12 @@
 const { expect } = require("chai");
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 const { deployments, ethers, getNamedAccounts, hre } = require("hardhat");
 require("@nomiclabs/hardhat-ethers");
+=======
+const { deployments, ethers, getNamedAccounts } = require("hardhat");
+>>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 =======
 const { deployments, ethers, getNamedAccounts } = require("hardhat");
 >>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
@@ -32,6 +36,7 @@ describe("Staking Test", function () {
       await connectNFTAcc.mintNFT({ value: ethers.utils.parseEther("0.0012") });
       await expect(await NFT.ownerOf(0)).to.equal(testAcc1.address);
     });
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 
@@ -65,6 +70,8 @@ describe("Staking Test", function () {
     })
 
     
+=======
+>>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 =======
 >>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 =======

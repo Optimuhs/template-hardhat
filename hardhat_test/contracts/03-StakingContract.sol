@@ -10,6 +10,10 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "./Interfaces/RewardTokenInterface.sol";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 =======
 
 >>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
