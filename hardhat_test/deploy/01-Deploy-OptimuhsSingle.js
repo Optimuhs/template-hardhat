@@ -10,27 +10,6 @@ module.exports = async({getNamedAccounts, deployments}) => {
     console.log(`Deploying optimuhs single mint contract on ${network.name}.`)
     const optimuhsDep = await deploy("OptimuhsSingle", {
         from: deployer,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        args: [ethers.utils.parseEther("0.001"), 3, 10000], // mint price, amount per, total supply
-=======
-        args: [ethers.utils.parseEther("0.001"), 10, 10000], // mint price, amount per, total supply
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
-        args: [ethers.utils.parseEther("0.001"), 10, 10000], // mint price, amount per, total supply
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
-        args: [ethers.utils.parseEther("0.001"), 10, 10000], // mint price, amount per, total supply
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
-        args: [ethers.utils.parseEther("0.001"), 10, 10000], // mint price, amount per, total supply
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
-        args: [ethers.utils.parseEther("0.001"), 10, 10000], // mint price, amount per, total supply
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
         log: true,
         waitConfirmations: network.config.blockConfirmations || 1,
     })
