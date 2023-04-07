@@ -2,6 +2,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 // const { expect } = require("chai");
 // const { deployments, ethers, getNamedAccounts } = require("hardhat");
 
@@ -66,6 +67,8 @@
 //   });
 // });
 =======
+=======
+>>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 =======
 >>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 =======
@@ -138,6 +141,9 @@ describe("Staking Test", function () {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
+=======
 >>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 =======
 >>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
