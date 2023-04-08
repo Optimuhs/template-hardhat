@@ -7,46 +7,10 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 import "../Interfaces/RewardTokenInterface.sol";
 import "../04-SafeMath.sol";
 
 interface TokenStakingInterface is IERC721Receiver {
-=======
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-import "./Interfaces/RewardTokenInterface.sol";
-import "./04-SafeMath.sol";
-
-contract TokenStakingInterface is
-    Ownable,
-    Pausable,
-    ReentrancyGuard,
-    IERC721Receiver
-{
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
     function onERC721Received(
         address operator,
         address from,
@@ -54,39 +18,9 @@ contract TokenStakingInterface is
         bytes memory data
     ) external returns (bytes4);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     function stakeToken(uint _tokenid) external;
 
     function unstakeToken(address _user, uint _tokenid) external;
-=======
-    function stakeToken(uint _tokenid) external nonReentrant;
-
-    function unstakeToken(address _user, uint _tokenid) external nonReentrant;
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
-    function stakeToken(uint _tokenid) external nonReentrant;
-
-    function unstakeToken(address _user, uint _tokenid) external nonReentrant;
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
-    function stakeToken(uint _tokenid) external nonReentrant;
-
-    function unstakeToken(address _user, uint _tokenid) external nonReentrant;
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
-    function stakeToken(uint _tokenid) external nonReentrant;
-
-    function unstakeToken(address _user, uint _tokenid) external nonReentrant;
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
-    function stakeToken(uint _tokenid) external nonReentrant;
-
-    function unstakeToken(address _user, uint _tokenid) external nonReentrant;
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 
     function checkTokenIsStaked(
         address _user,
@@ -116,41 +50,9 @@ contract TokenStakingInterface is
         address _user
     ) external view returns (uint totalStakeTime);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     function pause() external;
 
     function unpause() external;
 
     function withdraw() external returns (bool);
-=======
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-    function pause() external onlyOwner;
-
-    function unpause() external onlyOwner;
-
-    function withdraw() external onlyOwner nonReentrant returns (bool);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 }

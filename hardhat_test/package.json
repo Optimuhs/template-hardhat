@@ -18,47 +18,14 @@
 		"@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers@0.3.0-beta.13",
 		"@nomiclabs/hardhat-etherscan": "^3.1.5",
 		"@nomiclabs/hardhat-waffle": "^2.0.3",
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 		"@nomiclabs/hardhat-web3": "^2.0.0",
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 		"@openzeppelin/contracts": "^4.8.1",
 		"@openzeppelin/hardhat-upgrades": "^1.22.1",
 		"@typechain/ethers-v5": "^10.1.0",
 		"@typechain/hardhat": "^6.1.2",
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 		"chai": "^4.3.6",
-=======
-		"chai": "^4.2.0",
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
-		"chai": "^4.2.0",
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
-		"chai": "^4.2.0",
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
-		"chai": "^4.2.0",
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
-		"chai": "^4.2.0",
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 		"dotenv": "^16.0.3",
 		"erc721a": "^4.2.3",
 		"ethers": "^5.7.2",
@@ -68,43 +35,16 @@
 		"hardhat-ethers": "^1.0.1",
 		"hardhat-gas-reporter": "^1.0.8",
 		"solidity-coverage": "^0.8.0",
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 		"typechain": "^8.1.0",
 		"web3": "^1.9.0"
 	},
 	"dependencies": {
 		"ethereum-waffle": "^4.0.10",
-		"solhint": "^3.3.8"
-=======
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
+		"solhint": "^3.3.8",
 		"typechain": "^8.1.0"
 	},
 	"dependencies": {
 		"solhint": "^3.3.8",
 		"web3": "^1.9.0"
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
-=======
->>>>>>> a677a62bc034960a1b779a32089563fc6fb84cd2
 	}
 }
