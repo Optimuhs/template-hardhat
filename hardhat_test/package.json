@@ -16,15 +16,14 @@
 		"@nomicfoundation/hardhat-network-helpers": "^1.0.0",
 		"@nomicfoundation/hardhat-toolbox": "^2.0.0",
 		"@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers@0.3.0-beta.13",
-		"@nomiclabs/hardhat-etherscan": "^3.1.5",
+		"@nomiclabs/hardhat-etherscan": "^3.1.7",
 		"@nomiclabs/hardhat-waffle": "^2.0.3",
-
 		"@nomiclabs/hardhat-web3": "^2.0.0",
 		"@openzeppelin/contracts": "^4.8.1",
 		"@openzeppelin/hardhat-upgrades": "^1.22.1",
+		"@openzeppelin/test-helpers": "^0.5.16",
 		"@typechain/ethers-v5": "^10.1.0",
 		"@typechain/hardhat": "^6.1.2",
-
 		"chai": "^4.3.6",
 		"dotenv": "^16.0.3",
 		"erc721a": "^4.2.3",
@@ -33,15 +32,10 @@
 		"hardhat-deploy": "^0.11.23",
 		"hardhat-deploy-ethers": "0.3.0-beta.13",
 		"hardhat-ethers": "^1.0.1",
-		"hardhat-gas-reporter": "^1.0.8",
+		"hardhat-gas-reporter": "^1.0.9",
 		"solidity-coverage": "^0.8.0",
 		"typechain": "^8.1.0",
 		"web3": "^1.9.0"
-	},
-	"dependencies": {
-		"ethereum-waffle": "^4.0.10",
-		"solhint": "^3.3.8",
-		"typechain": "^8.1.0"
 	},
 	"dependencies": {
 		"solhint": "^3.3.8",

@@ -13,14 +13,14 @@ import "./04-SafeMath.sol";
 contract TokenStaking is Ownable, Pausable, ReentrancyGuard, IERC721Receiver {
     IERC721 immutable stakingNFT;
     RewardTokenInterface immutable stakingRewardToken;
-    uint immutable oneDayInSeconds = 1; //86400;
+    uint immutable oneDayInSeconds = 86400;
     using SafeMath for uint256;
+    bool STAKING_OPEN = false; //0 closed, 1 open
     // Map user address to a mapping of the user's tokenid => index in arrray stored in Stake struct
     mapping(address => mapping(uint => uint)) private stakedIndicies;
 
     struct Stake {
         uint256[] tokenids;
-        uint256 collectedTime;
         uint256 unclaimedRewards;
     }
 
@@ -59,7 +59,6 @@ contract TokenStaking is Ownable, Pausable, ReentrancyGuard, IERC721Receiver {
         if (stakes[from].tokenids.length < 1) {
             Stake memory userStake = Stake({
                 tokenids: new uint[](0),
-                collectedTime: 0,
                 unclaimedRewards: 0
             });
             stakes[from] = userStake;
@@ -78,6 +77,7 @@ contract TokenStaking is Ownable, Pausable, ReentrancyGuard, IERC721Receiver {
     }
 
     function stakeToken(uint _tokenid) external nonReentrant {
+        require(STAKING_OPEN == true, "Staking is not open yet");
         address owner = stakingNFT.ownerOf(_tokenid);
         require(
             msg.sender == owner ||
@@ -179,24 +179,11 @@ contract TokenStaking is Ownable, Pausable, ReentrancyGuard, IERC721Receiver {
         return rewards;
     }
 
-    // // Update the collected time value of the users stake struct
-    // function updateCollectedStakedTime(address _user, uint _tokenid) internal {
-    //     require(
-    //         _user == stakingNFT.ownerOf(_tokenid),
-    //         "User does not own this token"
-    //     );
-    //     uint delta = block.timestamp - tokenStakingTime[_tokenid];
-    //     stakes[_user].collectedTime += delta;
-    // }
-
     // Getter funcitons
     function getUserStake(
         address _userAddress
-    ) public view returns (uint[] memory _tokenid, uint _totalStakeTime) {
-        return (
-            stakes[_userAddress].tokenids,
-            stakes[_userAddress].collectedTime
-        );
+    ) public view returns (uint[] memory _tokenid) {
+        return (stakes[_userAddress].tokenids);
     }
 
     function getTokenStakeTime(uint _tokenid) public view returns (uint) {
@@ -209,11 +196,11 @@ contract TokenStaking is Ownable, Pausable, ReentrancyGuard, IERC721Receiver {
         return stakes[user].tokenids;
     }
 
-    function getUserStakeTime(
-        address _user
-    ) public view returns (uint totalStakeTime) {
-        return stakes[_user].collectedTime;
-    }
+    // function getUserStakeTime(
+    //     address _user
+    // ) public view returns (uint totalStakeTime) {
+    //     return stakes[_user].collectedTime;
+    // }
 
     function pause() external onlyOwner {
         _pause();
@@ -227,5 +214,17 @@ contract TokenStaking is Ownable, Pausable, ReentrancyGuard, IERC721Receiver {
         (bool success, ) = msg.sender.call{value: address(this).balance}("");
         require(success, "Transfer failed");
         return success;
+    }
+
+    function setStaking() public onlyOwner {
+        if (STAKING_OPEN == true) {
+            STAKING_OPEN = false;
+        } else if (STAKING_OPEN == false) {
+            STAKING_OPEN = true;
+        }
+    }
+
+    function getStakingStatus() public view returns (bool) {
+        return STAKING_OPEN;
     }
 }

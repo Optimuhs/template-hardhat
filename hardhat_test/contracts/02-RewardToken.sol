@@ -8,7 +8,7 @@ import "./04-SafeMath.sol";
 
 contract RewardToken is ERC20, Ownable, Pausable {
     address private authorized; // Staking contract will be only minter allowed
-    uint public TOTAL_SUPPLY = 100000;
+    uint public TOTAL_SUPPLY = 1000000;
     uint public CURRENT_SUPPLY = 0;
     using SafeMath for uint256;
     modifier onlyAuthorized() {
@@ -16,11 +16,7 @@ contract RewardToken is ERC20, Ownable, Pausable {
         _;
     }
 
-    constructor() ERC20("rewardtoken", "RWT") {
-        // Minting can be done in 2 ways
-        // Mint all tokens to this contract or mint as rewards are generated
-        // _mint(msg.sender, 100000 * 10 ** decimals());
-    }
+    constructor() ERC20("rewardtoken", "RWT") {}
 
     function setAuthorized(address stakingContract) external onlyOwner {
         authorized = stakingContract;
@@ -56,7 +52,6 @@ contract RewardToken is ERC20, Ownable, Pausable {
             _mint(account, remainder);
         } else {
             _mint(account, amount);
-            // transfer(account, amount);
         }
     }
 

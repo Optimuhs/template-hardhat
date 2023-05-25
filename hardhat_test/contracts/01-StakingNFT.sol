@@ -19,12 +19,19 @@ contract OptimuhsSingle is
 {
     using Counters for Counters.Counter;
     Counters.Counter private s_tokenIdCounter;
-
     string public s_baseExtension = ".json";
     uint256 private s_currentMinted = 0;
     string private s_baseTokenURI;
 
     mapping(address => uint32) public s_mintList;
+    
+    struct TokenMetadata {
+        string name;
+        string description;
+        string image;
+    }
+    mapping(uint256 => TokenMetadata) private _tokenMetadata;
+
 
     struct SalesConfig {
         uint256 mintPrice;
@@ -32,6 +39,7 @@ contract OptimuhsSingle is
         uint256 totalSupply;
     }
     SalesConfig public s_salesConfig;
+    
 
     event SuccessfulMint(address user, uint256 amount, uint256 value);
     event RecievedPayment(address user, uint256 amount);
@@ -55,20 +63,22 @@ contract OptimuhsSingle is
         _unpause();
     }
 
-    function safeMint(address to, string memory uri) private {
+    
+    function safeMint(address to, TokenMetadata memory metadata) private {
         uint256 tokenId = s_tokenIdCounter.current();
         s_tokenIdCounter.increment();
         _safeMint(to, tokenId);
-        _setTokenURI(tokenId, uri);
+        updateTokenMetadataInternal(tokenId, metadata);
     }
 
-    function mintNFT() public payable {
+    function mintNFT(TokenMetadata memory metadata) public payable {
         require(
             s_mintList[msg.sender] + 1 <= s_salesConfig.amountPerWallet,
             "Max mint limit per wallet reached"
         );
-        require(msg.value > s_salesConfig.mintPrice, "Not enough ETH");
-        safeMint(msg.sender, s_baseTokenURI);
+        require(msg.value >= s_salesConfig.mintPrice, "Not enough ETH");
+
+        safeMint(msg.sender, metadata);
         s_mintList[msg.sender] += 1;
         refundIfOver(s_salesConfig.mintPrice);
     }
@@ -95,19 +105,6 @@ contract OptimuhsSingle is
         super._burn(tokenId);
     }
 
-    function tokenURI(
-        uint256 tokenId
-    ) public view override(ERC721, ERC721URIStorage) returns (string memory) {
-        require(
-            _exists(tokenId),
-            "ERC721Metadata: URI query for nonexistent token:"
-        );
-        return super.tokenURI(tokenId);
-    }
-
-    function _baseURI() internal view virtual override returns (string memory) {
-        return s_baseTokenURI;
-    }
 
     function withdraw() external onlyOwner nonReentrant returns (bool) {
         (bool success, ) = msg.sender.call{value: address(this).balance}("");
@@ -121,5 +118,39 @@ contract OptimuhsSingle is
 
     function currentBalance() public view returns (uint256) {
         return address(this).balance;
+    }
+
+
+    function _baseURI() internal view virtual override returns (string memory) {
+        return s_baseTokenURI;
+    }
+
+    function getBase() external view returns (string memory){
+        return s_baseTokenURI;
+    }
+    function updateBase(string memory newUri) external onlyOwner{
+        s_baseTokenURI = newUri;
+    }
+
+    function updateTokenMetadataInternal(uint256 tokenId, TokenMetadata memory metadata) internal  {
+        require(_exists(tokenId), "ERC721Metadata: Metadata query for nonexistent token");
+        _setTokenMetadata(tokenId, metadata);
+    }
+
+    function updateTokenMetadataExternal(uint256 tokenId, TokenMetadata memory metadata) external onlyOwner {
+        require(msg.sender == owner() || msg.sender == address(this), "Ownable: caller is not the owner");
+        require(_exists(tokenId), "ERC721Metadata: Metadata query for nonexistent token");
+        _setTokenMetadata(tokenId, metadata);
+    }
+
+    function tokenURI(uint256 tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) {
+        require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
+        TokenMetadata memory metadata = _tokenMetadata[tokenId];
+        string memory baseURI = _baseURI();
+        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, metadata.image)) : "";
+    }
+
+    function _setTokenMetadata(uint256 tokenId, TokenMetadata memory metadata) internal {
+        _tokenMetadata[tokenId] = metadata;
     }
 }
