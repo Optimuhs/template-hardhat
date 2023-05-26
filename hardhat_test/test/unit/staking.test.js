@@ -53,7 +53,7 @@ describe("Staking Test", function () {
         value: ethers.utils.parseEther("0.0012"),
       });
       await expectRevert(
-        connectNFTAcc.mintNFT(TokenMetadata, x{
+        connectNFTAcc.mintNFT(TokenMetadata, {
           value: ethers.utils.parseEther("0.0012"),
         }),
         "Max mint limit per wallet reached"
@@ -150,6 +150,36 @@ describe("Staking Test", function () {
       await Staking.connect(deployer).setStaking();
       const stat = await Staking.connect(deployer).getStakingStatus();
       await expect(stat).to.equal(true);
+    });
+
+    it("Checks the current mint count", async function () {
+      const count = await connectNFTAcc.getCurrentMintCount();
+      expect(Number(count) === 6);
+    });
+
+    it("Check the tokens array of tokens the user owns", async function () {
+      const map1 = await connectNFTAcc.getTokensOwned(testAcc1.address);
+      const owned = await connectNFTAcc.balanceOf(testAcc1.address);
+      expect(map1.length === owned);
+    });
+
+    it("Correctly updates the token mapping", async function () {
+      const map1 = await connectNFTAcc.getTokensOwned(testAcc1.address);
+      const map2 = await connectNFTAcc.getTokensOwned(deployer.address);
+      console.log(map1, map2);
+      await connectNFTAcc.transferFrom(testAcc1.address, deployer.address, 1);
+      const map3 = await connectNFTAcc.getTokensOwned(testAcc1.address);
+      const map4 = await connectNFTAcc.getTokensOwned(deployer.address);
+      expect(map1.length === map2.length);
+      expect(map1.length - 1 === map3.length);
+    });
+
+    it("Gets the users token uri", async function () {
+      const map1 = await connectNFTAcc.getTokensOwned(testAcc1.address);
+      const token1 = map1[0];
+      const tokenURI = await connectNFTAcc.tokenURI(token1);
+      const currentURI = "https://ipfs.io/ipfs/hehehe";
+      expect(tokenURI === currentURI);
     });
   });
 });

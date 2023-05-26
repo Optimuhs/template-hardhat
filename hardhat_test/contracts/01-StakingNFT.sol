@@ -20,11 +20,11 @@ contract OptimuhsSingle is
     using Counters for Counters.Counter;
     Counters.Counter private s_tokenIdCounter;
     string public s_baseExtension = ".json";
-    uint256 private s_currentMinted = 0;
     string private s_baseTokenURI;
 
     mapping(address => uint32) public s_mintList;
-    
+    mapping(address => uint[]) public tokenMapping;
+
     struct TokenMetadata {
         string name;
         string description;
@@ -41,9 +41,10 @@ contract OptimuhsSingle is
     SalesConfig public s_salesConfig;
     
 
-    event SuccessfulMint(address user, uint256 amount, uint256 value);
+    event SuccessfulMint(address user, uint256 amount);
     event RecievedPayment(address user, uint256 amount);
-
+    event tokenMappingUpdated(address owner, uint256 tokenId);
+    event tokenTransferred(address from, address to);
     constructor(
         uint256 mintPrice_,
         uint256 amountPerWallet_,
@@ -63,12 +64,21 @@ contract OptimuhsSingle is
         _unpause();
     }
 
+    function getCurrentMintCount() public view returns(uint) {
+        return s_tokenIdCounter.current();
+    }
+    
+    function getTokensOwned(address owner) public view returns(uint[] memory){
+        return tokenMapping[owner];
+    }
     
     function safeMint(address to, TokenMetadata memory metadata) private {
         uint256 tokenId = s_tokenIdCounter.current();
         s_tokenIdCounter.increment();
         _safeMint(to, tokenId);
         updateTokenMetadataInternal(tokenId, metadata);
+        tokenMapping[msg.sender].push(tokenId);
+        emit SuccessfulMint(to, tokenId);
     }
 
     function mintNFT(TokenMetadata memory metadata) public payable {
@@ -77,7 +87,6 @@ contract OptimuhsSingle is
             "Max mint limit per wallet reached"
         );
         require(msg.value >= s_salesConfig.mintPrice, "Not enough ETH");
-
         safeMint(msg.sender, metadata);
         s_mintList[msg.sender] += 1;
         refundIfOver(s_salesConfig.mintPrice);
@@ -105,7 +114,6 @@ contract OptimuhsSingle is
         super._burn(tokenId);
     }
 
-
     function withdraw() external onlyOwner nonReentrant returns (bool) {
         (bool success, ) = msg.sender.call{value: address(this).balance}("");
         require(success, "Transfer failed");
@@ -120,7 +128,6 @@ contract OptimuhsSingle is
         return address(this).balance;
     }
 
-
     function _baseURI() internal view virtual override returns (string memory) {
         return s_baseTokenURI;
     }
@@ -130,6 +137,58 @@ contract OptimuhsSingle is
     }
     function updateBase(string memory newUri) external onlyOwner{
         s_baseTokenURI = newUri;
+    }
+
+    function getTokenIndex(uint tokenId) internal view returns(uint idx){
+        // Find token index
+        uint[] memory tokens =  tokenMapping[msg.sender];
+        for (uint256 i = 0; i < tokens.length - 1; i++) {
+            if(tokenId == tokens[i]){
+                uint index = i;
+                return index;
+            }
+        }
+        
+    }
+
+    // Update the token mapping for transfers 
+    function updateTokenMapping(uint tokenId, address to) internal {
+        uint[] storage tokens = tokenMapping[msg.sender];
+        uint index = getTokenIndex(tokenId);
+        if(tokens.length == 1 && tokens.length > 0){
+            uint token = tokens[0];
+            tokens.pop();
+            tokenMapping[to].push(token);
+        }else{
+            // Remove the token
+            uint token = removeToken(index, msg.sender);
+            // Update token to be on receiver 
+            tokenMapping[to].push(token);
+        }
+    }   
+    
+    // Remove token from array in TokenMapping
+    function removeToken(uint index, address from) internal returns(uint tokenRemoved){
+        uint[] storage tokens = tokenMapping[from];
+        require(index < tokens.length, "Invalid index");
+        uint token = tokens[index];
+        // Shift elements to the left starting from the index
+        for (uint256 i = index; i < tokens.length - 1; i++) {
+            tokens[i] = tokens[i + 1];
+        }
+        // Decrease the array length by 1
+        tokens.pop();
+        return token;
+    }
+
+    // Override the transferFrom function
+    function transferFrom(address from, address to, uint256 tokenId) public override {
+        // Additional checks or logic before the transfer
+        require(ownerOf(tokenId) == from, "Owner is not transfering this token");
+        // Call the base implementation of transferFrom
+        super.transferFrom(from, to, tokenId);
+        updateTokenMapping(tokenId, to);
+        emit tokenTransferred(from, to);
     }
 
     function updateTokenMetadataInternal(uint256 tokenId, TokenMetadata memory metadata) internal  {

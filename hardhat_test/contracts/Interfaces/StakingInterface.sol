@@ -10,7 +10,11 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "../Interfaces/RewardTokenInterface.sol";
 import "../04-SafeMath.sol";
 
+
+
 interface TokenStakingInterface is IERC721Receiver {
+   
+
     function onERC721Received(
         address operator,
         address from,
