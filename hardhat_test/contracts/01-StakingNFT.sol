@@ -30,8 +30,8 @@ contract OptimuhsSingle is
         string description;
         string image;
     }
-    mapping(uint256 => TokenMetadata) private _tokenMetadata;
 
+    mapping(uint256 => TokenMetadata) private _tokenMetadata;
 
     struct SalesConfig {
         uint256 mintPrice;
@@ -70,6 +70,10 @@ contract OptimuhsSingle is
     
     function getTokensOwned(address owner) public view returns(uint[] memory){
         return tokenMapping[owner];
+    }
+
+    function getTokenMetadata(uint tokenId) public view returns(TokenMetadata memory) {
+        return _tokenMetadata[tokenId];
     }
     
     function safeMint(address to, TokenMetadata memory metadata) private {

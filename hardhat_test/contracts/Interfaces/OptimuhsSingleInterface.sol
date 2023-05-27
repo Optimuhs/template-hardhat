@@ -10,8 +10,6 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 interface OptimuhsSingleInterface {
-
-
      struct TokenMetadata {
         string name;
         string description;
@@ -35,6 +33,9 @@ interface OptimuhsSingleInterface {
     // Allow owner to withdraw any funds received
     function withdraw() external returns (bool);
 
+    // Return token metadata for a specific token
+    function getTokenMetadata(uint tokenId) external view returns(TokenMetadata memory);
+    
     // Receive fallback
     receive() external payable ;
 
