@@ -214,6 +214,6 @@ contract OptimuhsSingle is
     }
 
     function _setTokenMetadata(uint256 tokenId, TokenMetadata memory metadata) internal {
-        _tokenMetadata[tokenId] = metadata;
+        _tokenMetadata[tokenId] = TokenMetadata({name:metadata.name, description:metadata.description, image:metadata.image});
     }
 }

@@ -1,4 +1,4 @@
-const { expect } = require("chai");
+const { expect, assert } = require("chai");
 const { deployments, ethers } = require("hardhat");
 const { expectRevert } = require("@openzeppelin/test-helpers");
 
@@ -199,6 +199,15 @@ describe("Staking Test", function () {
       const tokenURI = await connectNFTAcc.tokenURI(token1);
       const currentURI = "https://ipfs.io/ipfs/hehehe";
       expect(tokenURI === currentURI);
+    });
+
+    it("Gets the user token metadata for a token id", async function () {
+      const token1 = await connectNFTAcc.getTokenMetadata(1);
+      assert(
+        token1.name === "Optimuhs' Token" &&
+          token1.description === "Thank you token" &&
+          token1.image === "ipfs/someCID"
+      );
     });
   });
 });
