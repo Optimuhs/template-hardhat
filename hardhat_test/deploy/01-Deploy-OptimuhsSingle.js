@@ -14,11 +14,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     log: true,
     waitConfirmations: network.config.blockConfirmations || 1,
   });
-  console.log(
-    process.env.ETHERSCAN_API_KEY,
-    "ETHSCAN",
-    developmentChains.includes(network.name)
-  );
+
   if (
     !developmentChains.includes(network.name) &&
     process.env.ETHERSCAN_API_KEY
