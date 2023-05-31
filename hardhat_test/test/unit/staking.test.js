@@ -203,6 +203,7 @@ describe("Staking Test", function () {
 
     it("Gets the user token metadata for a token id", async function () {
       const token1 = await connectNFTAcc.getTokenMetadata(1);
+      console.log(token1.image);
       assert(
         token1.name === "Optimuhs' Token" &&
           token1.description === "Thank you token" &&

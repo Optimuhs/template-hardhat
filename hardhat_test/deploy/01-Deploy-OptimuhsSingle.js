@@ -10,17 +10,21 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   console.log(`Deploying optimuhs single mint contract on ${network.name}.`);
   const optimuhsDep = await deploy("OptimuhsSingle", {
     from: deployer,
-    args: [0, 3, 10000],
+    args: [0, 5, 10000],
     log: true,
     waitConfirmations: network.config.blockConfirmations || 1,
   });
-
+  console.log(
+    process.env.ETHERSCAN_API_KEY,
+    "ETHSCAN",
+    developmentChains.includes(network.name)
+  );
   if (
     !developmentChains.includes(network.name) &&
     process.env.ETHERSCAN_API_KEY
   ) {
     log("----------------------------------------------");
-    await verify(optimuhsDep.address, [0, 3, 10000]);
+    await verify(optimuhsDep.address, [0, 5, 10000]);
   }
 };
 module.exports.tags = ["deploy"];
